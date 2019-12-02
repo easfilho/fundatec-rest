@@ -3,11 +3,9 @@ package br.com.fundatec.carro.api;
 import br.com.fundatec.carro.mapper.CarroMapper;
 import br.com.fundatec.carro.model.Carro;
 import br.com.fundatec.carro.service.CarroService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +39,13 @@ public class CarroApi {
             return ResponseEntity.ok(carroOutputDto);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/carros")
+    public ResponseEntity<CarroOutputDto> incluir(@RequestBody CarroInputDto carroInputDto) {
+        Carro carro = carroMapper.mapear(carroInputDto);
+        carro = carroService.incluir(carro);
+        CarroOutputDto carroOutputDto = carroMapper.mapear(carro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(carroOutputDto);
     }
 }
