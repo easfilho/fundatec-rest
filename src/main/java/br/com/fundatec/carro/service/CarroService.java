@@ -4,6 +4,7 @@ import br.com.fundatec.carro.model.Carro;
 import br.com.fundatec.carro.repository.CarroRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,6 +25,20 @@ public class CarroService {
     }
 
     public Carro incluir(Carro carro) {
+        validar(carro);
         return carroRepository.incluir(carro);
+    }
+
+    private void validar(Carro carro) {
+        if(carro.getDataFabricacao().isAfter(carro.getDataModelo())) {
+            throw new RuntimeException("Data de fabricação não pode " +
+                    "ser maior que data do modelo");
+        }
+
+        List<String> marcasValidas = Arrays.asList("Fiat", "Ford", "VolksWagen");
+        if(!marcasValidas.contains(carro.getMarca())) {
+            throw new RuntimeException("A marca " + carro.getMarca() + " é inválida.");
+        }
+
     }
 }
