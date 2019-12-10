@@ -1,5 +1,8 @@
 package br.com.fundatec.carro.api;
 
+import br.com.fundatec.carro.api.dto.CarroInputDto;
+import br.com.fundatec.carro.api.dto.CarroOutputDto;
+import br.com.fundatec.carro.api.dto.ErroDto;
 import br.com.fundatec.carro.mapper.CarroMapper;
 import br.com.fundatec.carro.model.Carro;
 import br.com.fundatec.carro.service.CarroService;

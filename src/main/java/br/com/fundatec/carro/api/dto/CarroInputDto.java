@@ -1,4 +1,4 @@
-package br.com.fundatec.carro.api;
+package br.com.fundatec.carro.api.dto;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
