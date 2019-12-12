@@ -47,4 +47,17 @@ public class CarroService {
     public List<Carro> listarCarros(LocalDate dataInicio, LocalDate dataFim) {
         return carroRepository.findByDataFabricacaoBetween(dataInicio, dataFim);
     }
+
+    public Carro atualizar(Long idCarro, Carro carroParaAtualizacao) {
+        Carro carro = consultar(idCarro);
+        if(carro != null) {
+            carro.setNome(carroParaAtualizacao.getNome());
+            carro.setMarca(carroParaAtualizacao.getMarca());
+            carro.setPlaca(carroParaAtualizacao.getPlaca());
+            carro.setDataFabricacao(carroParaAtualizacao.getDataFabricacao());
+            carro.setDataModelo(carroParaAtualizacao.getDataModelo());
+            carro = carroRepository.save(carro);
+        }
+        return carro;
+    }
 }
