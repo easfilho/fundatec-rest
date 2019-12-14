@@ -38,7 +38,7 @@ public class AtualizarCarroTest {
         carroRepository.deleteAll();
 
         carro = new Carro();
-        carro.setNome("Mustang");
+        carro.setNome("Ferrari");
         carro.setPlaca("AJU4455");
         carro.setMarca("Fiat");
         carro.setDataModelo(LocalDate.of(2000, 10, 1));
@@ -77,5 +77,23 @@ public class AtualizarCarroTest {
         Assert.assertEquals("KKK9999", carroAtualizado.getPlaca());
         Assert.assertEquals("2000-10-10", carroAtualizado.getDataModelo().toString());
         Assert.assertEquals("1999-10-10", carroAtualizado.getDataFabricacao().toString());
+    }
+
+    @Test
+    public void deveRetornarVazioQuandoAtualizarUmCarroInexistente() {
+        RestAssured.given()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body("{" +
+                        "\"nome\": \"Chevette\"," +
+                        "\"marca\": \"Fiat\",\n" +
+                        "\"placa\": \"KKK9999\"," +
+                        "\"dataModelo\": \"2000-10-10\"," +
+                        "\"dataFabricacao\": \"1999-10-10\"" +
+                        "}")
+                .when()
+                .put("/carros/{id}", -456)
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

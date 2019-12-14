@@ -35,7 +35,7 @@ public class CarroApi {
     @GetMapping("/carros/{id}")
     public ResponseEntity<CarroOutputDto> getCarro(@PathVariable Long id) {
         Carro carro = carroService.consultar(id);
-        if(carro != null) {
+        if (carro != null) {
             CarroOutputDto carroOutputDto = carroMapper.mapear(carro);
             return ResponseEntity.ok(carroOutputDto);
         }
@@ -71,12 +71,16 @@ public class CarroApi {
                                             @Valid @RequestBody CarroInputDto carroInputDto) {
         Carro carro = carroMapper.mapear(carroInputDto);
         carro = carroService.atualizar(id, carro);
-        if(carro != null) {
-            CarroOutputDto carroOutputDto = carroMapper.mapear(carro);
-            return ResponseEntity.ok(carroOutputDto);
+        if (carro == null) {
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(carroMapper.mapear(carro));
+    }
 
+    @DeleteMapping("/carros/{id}")
+    public ResponseEntity<?> excluirCarro(@PathVariable Long id) {
+        carroService.excluir(id);
+        return ResponseEntity.ok().build();
     }
 
     private ResponseEntity<List<CarroOutputDto>> getListResponseEntityCarroOutputDto(List<Carro> carros) {
